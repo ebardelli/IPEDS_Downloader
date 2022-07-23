@@ -74,4 +74,26 @@ forval year = 2000/2020 {
 		copy `file' Documentation/IPEDS/, replace
 		erase `file'
 	}
+
+	** Create dta files for each downloaded year
+	local files : dir "Data/Raw/" files "*`year'*.csv"
+	foreach file in `files' {
+		clear all
+
+		** Some years have revised data. This adds a _rv flag to the saved dta file
+		if regexm("`file'", "rv") {
+			local rv = "_rv"
+		}
+		else {
+			local rv = ""
+		}
+		insheet using "Data/Raw/`file'", comma clear
+
+		local file : dir "Code/IPEDS/" files "*`year'*.do"
+		local do_file = "Code/IPEDS/" + `file'
+		do "`do_file'"
+
+		** Save data
+		save "Data/Raw/Awards_`year'`rv'", replace
+	}
 }
