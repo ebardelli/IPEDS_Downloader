@@ -1,0 +1,12 @@
+# Data files
+*.zip
+*.csv
+*.xls
+*.xlsx
+*.dta
+
+# Do files from IPEDS
+Code/IPEDS/*
+
+# Documentation
+*.html
