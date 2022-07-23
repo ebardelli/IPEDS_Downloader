@@ -52,11 +52,19 @@ forval year = 2000/2020 {
 	** Do files
 	local files : dir "`c(pwd)'" files "*_a.do"
 	foreach file in `files' {
+		** Remove loading and saving of data. We do this separately.
+		shell "sed -i '/insheet/d' `file'"
+		shell "sed -i '/save/d' `file'"
+
 		copy `file' Code/IPEDS/, replace
 		erase `file'
 	}
 	local files : dir "`c(pwd)'" files "*_A.do"
 	foreach file in `files' {
+		** Remove loading and saving of data. We do this separately.
+		shell "sed -i '/insheet/d' `file'"
+		shell "sed -i '/save/d' `file'"
+
 		copy `file' Code/IPEDS/, replace
 		erase `file'
 	}
