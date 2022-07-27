@@ -4,6 +4,7 @@
 *.xls
 *.xlsx
 *.dta
+*.dta.gz
 
 # Do files from IPEDS
 Code/IPEDS/*

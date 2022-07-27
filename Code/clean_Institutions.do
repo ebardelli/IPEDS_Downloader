@@ -14,4 +14,4 @@ forval year = 2002/2020 {
 	replace year = `year' if missing(year)
 }
 
-save "Data/Institutions_2002_2022", replace
+gzsave "Data/Institutions_2002_2022", replace
