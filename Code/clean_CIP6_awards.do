@@ -76,22 +76,56 @@ gen p_hispanic = crace21 / crace24
 gen p_white = crace22 / crace24
 gen p_unknown = crace23 / crace24
 
-replace p_black_m = cbkaam / ctotalm
-replace p_black_w = cbkaaw / ctotalw
-replace p_native_m = caianm / ctotalm
-replace p_native_w = caianw / ctotalw
-replace p_asian_m = casiam / ctotalm
-replace p_asian_w = casiaw / ctotalw
-replace p_hispanic_m = chispm / ctotalm
-replace p_hispanic_w = chispw / ctotalw
-replace p_white_m = cwhitm / ctotalm
-replace p_white_w = cwhitw / ctotalw
+** New counts
+/*
+cnralm          int     %8.0g                 Nonresident alien men
+cnralw          int     %8.0g                 Nonresident alien women
+cunknm          int     %8.0g                 Race/ethnicity unknown men
+cunknw          int     %8.0g                 Race/ethnicity unknown women
+ctotalm         int     %8.0g                 Grand total men
+ctotalw         int     %8.0g                 Grand total women
+cnralt          int     %8.0g                 Nonresident alien total
+cunknt          int     %8.0g                 Race/ethnicity unknown total
+ctotalt         long    %8.0g                 Grand total
+chispm          int     %8.0g                 Hispanic or Latino men - new
+chispw          int     %8.0g                 Hispanic or Latino women - new
+caianm          int     %8.0g                 American Indian or Alaska Native men - new
+caianw          int     %8.0g                 American Indian or Alaska Native women - new
+casiam          int     %8.0g                 Asian men - new
+casiaw          int     %8.0g                 Asian women - new
+cbkaam          int     %8.0g                 Black or African American men - new
+cbkaaw          int     %8.0g                 Black or African American women - new
+cnhpim          int     %8.0g                 Native Hawaiian or Other Pacific Islander men - new
+cnhpiw          int     %8.0g                 Native Hawaiian or Other Pacific Islander women - new
+cwhitm          int     %8.0g                 White men - new
+cwhitw          int     %8.0g                 White women - new
+c2morm          int     %8.0g                 Two or more races men - new
+c2morw          int     %8.0g                 Two or more races women - new
+chispt          int     %8.0g                 Hispanic or Latino total - new
+caiant          int     %8.0g                 American Indian or Alaska Native total - new
+casiat          int     %8.0g                 Asian total - new
+cbkaat          int     %8.0g                 Black or African American total - new
+cnhpit          int     %8.0g                 Native Hawaiian or Other Pacific Islander total - new
+cwhitt          int     %8.0g                 White total - new
+c2mort          int     %8.0g                 Two or more races total - new
+ */
 
-replace p_black = cbkaat / ctotalt
-replace p_native = caiant / ctotalt
-replace p_asian = casiat / ctotalt
-replace p_hispanic = chispt / ctotalt
-replace p_white = cwhitt / ctotalt
+replace p_black_m = cbkaam / ctotalm if missing(p_black_m)
+replace p_black_w = cbkaaw / ctotalw if missing(p_black_w)
+replace p_native_m = caianm / ctotalm if missing(p_native_m)
+replace p_native_w = caianw / ctotalw if missing(p_native_w)
+replace p_asian_m = casiam / ctotalm if missing(p_asian_m)
+replace p_asian_w = casiaw / ctotalw if missing(p_asian_w)
+replace p_hispanic_m = chispm / ctotalm if missing(p_hispanic_m)
+replace p_hispanic_w = chispw / ctotalw if missing(p_hispanic_w)
+replace p_white_m = cwhitm / ctotalm if missing(p_white_m)
+replace p_white_w = cwhitw / ctotalw if missing(p_white_w)
+
+replace p_black = cbkaat / ctotalt if missing(p_black)
+replace p_native = caiant / ctotalt if missing(p_native)
+replace p_asian = casiat / ctotalt if missing(p_asian)
+replace p_hispanic = chispt / ctotalt if missing(p_hispanic)
+replace p_white = cwhitt / ctotalt if missing(p_white)
 
 ** Generage CIP2 variable
 gen cip2 = floor(cipcode / 10000)
