@@ -127,8 +127,10 @@ replace p_asian = casiat / ctotalt if missing(p_asian)
 replace p_hispanic = chispt / ctotalt if missing(p_hispanic)
 replace p_white = cwhitt / ctotalt if missing(p_white)
 
-** Generage CIP2 variable
+** Generate CIP2 variable
 gen cip2 = floor(cipcode / 10000)
+** Gen CIP4 variable
+gen cip4 = floor(cipcode / 100)
 
 label values cip2 label_cip2
 
