@@ -25,7 +25,7 @@ forval year = 2020/2020 {
 	replace year = `year' if missing(year)
 }
 
-** Generate percentage
+** Line up counts across data collections
 /*
 crace01         int     %8.0g                 Nonresident alien men
 crace02         int     %8.0g                 Nonresident alien women
@@ -53,28 +53,30 @@ crace23         int     %8.0g                 Race/ethnicity unknown total
 crace24         int     %8.0g                 Grand total
 */
 
-gen p_nonres_m = crace01 / crace15
-gen p_nonres_w = crace02 / crace16
-gen p_black_m = crace03 / crace15
-gen p_black_w = crace04 / crace16
-gen p_native_m = crace05 / crace15
-gen p_native_w = crace06 / crace16
-gen p_asian_m = crace07 / crace15
-gen p_asian_w = crace08 / crace16
-gen p_hispanic_m = crace09 / crace15
-gen p_hispanic_w = crace10 / crace16
-gen p_white_m = crace11 / crace15
-gen p_white_w = crace12 / crace16
-gen p_unknown_m = crace13 / crace15
-gen p_unknown_w = crace14 / crace16
-
-gen p_nonres = crace17 / crace24
-gen p_black = crace18 / crace24
-gen p_native = crace19 / crace24
-gen p_asian = crace20 / crace24
-gen p_hispanic = crace21 / crace24
-gen p_white = crace22 / crace24
-gen p_unknown = crace23 / crace24
+gen nonres_men = crace01
+gen nonres_wom = crace02
+gen black_men = crace03
+gen black_wom = crace04
+gen native_men = crace05
+gen native_wom = crace06
+gen aapi_men = crace07
+gen aapi_wom = crace08
+gen hispanic_men = crace09
+gen hispanic_wom = crace10
+gen white_men = crace11
+gen white_wom = crace12
+gen unknown_men = crace13
+gen unknown_wom = crace14
+gen men_tot = crace15
+gen wom_tot = crace16
+gen nonres_tot = crace17
+gen black_tot = crace18
+gen native_tot = crace19
+gen aapi_tot = crace20
+gen hispanic_tot = crace21
+gen white_tot = crace22
+gen unknown_tot = crace23
+gen tot = crace24
 
 ** New counts
 /*
@@ -110,22 +112,37 @@ cwhitt          int     %8.0g                 White total - new
 c2mort          int     %8.0g                 Two or more races total - new
  */
 
-replace p_black_m = cbkaam / ctotalm if missing(p_black_m)
-replace p_black_w = cbkaaw / ctotalw if missing(p_black_w)
-replace p_native_m = caianm / ctotalm if missing(p_native_m)
-replace p_native_w = caianw / ctotalw if missing(p_native_w)
-replace p_asian_m = casiam / ctotalm if missing(p_asian_m)
-replace p_asian_w = casiaw / ctotalw if missing(p_asian_w)
-replace p_hispanic_m = chispm / ctotalm if missing(p_hispanic_m)
-replace p_hispanic_w = chispw / ctotalw if missing(p_hispanic_w)
-replace p_white_m = cwhitm / ctotalm if missing(p_white_m)
-replace p_white_w = cwhitw / ctotalw if missing(p_white_w)
+replace nonres_men = cnralm if missing(nonres_men)
+replace nonres_wom = cnralw if missing(nonres_wom)
+replace black_men = cbkaam if missing(black_men)
+replace black_wom = cbkaaw if missing(black_wom)
+replace native_men = caianm if missing(native_men)
+replace native_wom = caianw if missing(native_wom)
+replace aapi_men = casiam if missing(aapi_men)
+replace aapi_wom = casiaw if missing(aapi_wom)
+replace hispanic_men = chispm if missing(hispanic_men)
+replace hispanic_wom = chispw if missing(hispanic_wom)
+replace white_men = cwhitm if missing(white_men)
+replace white_wom = cwhitw if missing(white_wom)
+replace unknown_men = cunknm if missing(unknown_men)
+replace unknown_wom = cunknw if missing(unknown_wom)
+replace men_tot = ctotalm if missing(men_tot)
+replace wom_tot = ctotalw if missing(wom_tot)
+replace nonres_tot = cnralt if missing(nonres_tot)
+replace black_tot = cbkaat if missing(black_tot)
+replace native_tot = caiant if missing(native_tot)
+replace aapi_tot = casiat if missing(aapi_tot)
+replace hispanic_tot = chispt if missing(hispanic_tot)
+replace white_tot = cwhitt if missing(white_tot)
+replace unknown_tot = cunknt if missing(unknown_tot)
+replace tot = ctotalt if missing(tot)
 
-replace p_black = cbkaat / ctotalt if missing(p_black)
-replace p_native = caiant / ctotalt if missing(p_native)
-replace p_asian = casiat / ctotalt if missing(p_asian)
-replace p_hispanic = chispt / ctotalt if missing(p_hispanic)
-replace p_white = cwhitt / ctotalt if missing(p_white)
+foreach group in nonres black native aapi hispanic white unknown {
+	gen p_`group'_men = `group'_men / men_tot
+	gen p_`group'_wom = `group'_wom / wom_tot
+
+	gen p_`group' = `group'_tot / tot
+}
 
 ** Generate CIP2 variable
 gen cip2 = floor(cipcode / 10000)
